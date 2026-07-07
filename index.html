@@ -95,11 +95,16 @@
       max-height: none;
       padding: 12px 16px 10px;
       background:
-        radial-gradient(circle at right top, rgba(255, 255, 255, 0.88), transparent 34%),
-        linear-gradient(135deg, var(--sky-1) 0%, var(--sky-2) 56%, var(--sky-3) 100%);
-      border-bottom: 1px solid rgba(164, 195, 226, 0.7);
+        linear-gradient(90deg, #081a2d 0%, #102b46 32%, #183f63 68%, #275b84 100%) top / 100% 4px no-repeat,
+        linear-gradient(180deg, #081a2d 0%, #12324f 42%, #275b84 100%) left / 4px 100% no-repeat,
+        linear-gradient(180deg, #081a2d 0%, #12324f 42%, #275b84 100%) right / 4px 100% no-repeat,
+        #ffffff;
+      border-top: 0;
+      border-bottom: 1px solid #e5eaf0;
+      border-left: 0;
+      border-right: 0;
       display: grid;
-      grid-template-columns: minmax(290px, 0.96fr) minmax(390px, 1.18fr) minmax(320px, 0.84fr);
+      grid-template-columns: minmax(270px, 0.78fr) minmax(700px, 1.62fr) minmax(360px, 0.9fr);
       gap: 18px;
       align-items: stretch;
       overflow: visible;
@@ -442,9 +447,15 @@
       display: none;
       margin: 12px 12px 0;
       padding: 12px;
-      border: 1px solid #dce5f3;
-      border-radius: 14px;
-      background: linear-gradient(180deg, #fbfdff, #f4f8ff);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid #d9e4f4;
+      border-radius: 22px;
+      background:
+        radial-gradient(circle at top right, rgba(118, 164, 255, 0.18), transparent 34%),
+        radial-gradient(circle at bottom left, rgba(255, 193, 145, 0.18), transparent 30%),
+        linear-gradient(180deg, #fcfdff, #f4f8ff 58%, #eef5ff 100%);
+      box-shadow: 0 14px 28px rgba(43, 84, 132, 0.08);
     }
 
     .ai-suggestion-box.show {
@@ -453,9 +464,132 @@
     }
 
     .ai-suggestion-title {
-      margin-bottom: 10px;
-      font-size: 13px;
+      margin-bottom: 12px;
+      color: #23405f;
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .ai-reason-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .ai-reason-option {
+      width: 100%;
+      position: relative;
+      min-height: 54px;
+      padding: 12px 14px 12px 18px;
+      border: 1px solid rgba(208, 221, 239, 0.92);
+      border-radius: 18px 22px 18px 24px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(243, 248, 255, 0.96));
+      color: #3d5673;
+      font-size: 12px;
       font-weight: 700;
+      text-align: left;
+      box-shadow: 0 10px 18px rgba(48, 84, 125, 0.08);
+      transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease, background 0.18s ease;
+      isolation: isolate;
+      overflow: hidden;
+    }
+
+    .ai-reason-option::before {
+      content: "";
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #7aa9ff, #4f78ff);
+      box-shadow: 0 0 0 5px rgba(117, 155, 255, 0.14);
+      transform: translateY(-50%);
+      z-index: 1;
+    }
+
+    .ai-reason-option::after {
+      content: "";
+      position: absolute;
+      right: -16px;
+      bottom: -18px;
+      width: 62px;
+      height: 62px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(124, 163, 255, 0.18) 0%, rgba(124, 163, 255, 0) 72%);
+      z-index: 0;
+      transition: transform 0.18s ease, opacity 0.18s ease;
+    }
+
+    .ai-reason-option:hover,
+    .ai-reason-option.is-selected {
+      transform: translateY(-2px) rotate(-0.4deg);
+      border-color: #86a2ff;
+      box-shadow: 0 16px 24px rgba(60, 85, 153, 0.14);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 1), rgba(237, 244, 255, 0.98));
+    }
+
+    .ai-reason-option:hover::after,
+    .ai-reason-option.is-selected::after {
+      transform: scale(1.12);
+      opacity: 1;
+    }
+
+    .ai-reason-option:nth-child(2n) {
+      border-radius: 22px 18px 24px 18px;
+    }
+
+    .ai-reason-option:nth-child(2)::before {
+      background: linear-gradient(135deg, #7fd6c0, #3fab95);
+      box-shadow: 0 0 0 5px rgba(93, 191, 168, 0.14);
+    }
+
+    .ai-reason-option:nth-child(3)::before {
+      background: linear-gradient(135deg, #ffbe72, #ff8c5a);
+      box-shadow: 0 0 0 5px rgba(255, 170, 101, 0.16);
+    }
+
+    .ai-reason-option:nth-child(4)::before {
+      background: linear-gradient(135deg, #c69bff, #8c6dff);
+      box-shadow: 0 0 0 5px rgba(164, 130, 255, 0.15);
+    }
+
+    .ai-reason-option.is-selected {
+      color: #29486b;
+    }
+
+    .ai-reason-option.is-selected::before {
+      width: 10px;
+      height: 10px;
+    }
+
+    .ai-reason-option.is-selected:nth-child(1) {
+      border-color: #6f92ff;
+      box-shadow: 0 16px 24px rgba(80, 112, 204, 0.16);
+    }
+
+    .ai-reason-option.is-selected:nth-child(2) {
+      border-color: #58b69f;
+      box-shadow: 0 16px 24px rgba(63, 171, 149, 0.16);
+    }
+
+    .ai-reason-option.is-selected:nth-child(3) {
+      border-color: #ff9d64;
+      box-shadow: 0 16px 24px rgba(255, 140, 90, 0.16);
+    }
+
+    .ai-reason-option.is-selected:nth-child(4) {
+      border-color: #9a7cff;
+      box-shadow: 0 16px 24px rgba(140, 109, 255, 0.16);
+    }
+
+    .ai-other-reason-box {
+      display: none;
+      margin-top: 10px;
+    }
+
+    .ai-other-reason-box.show {
+      display: block;
     }
 
     .ai-form-grid {
@@ -550,47 +684,53 @@
       top: auto;
       transform: none;
       display: flex;
-      align-items: stretch;
-      justify-content: stretch;
+      align-items: flex-start;
+      justify-content: flex-start;
+      gap: 28px;
       padding-top: 2px;
-      padding-left: 96px;
+      padding-left: 108px;
       padding-right: 0;
+      min-width: 0;
     }
 
     .top-info {
-      width: 100%;
+      width: auto;
+      flex: 0 0 auto;
+      max-width: 100%;
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 8px;
-      padding: 8px 10px;
-      border-radius: 16px;
-      background: linear-gradient(180deg, rgba(247, 244, 239, 0.96), rgba(240, 235, 228, 0.88));
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 14px 28px rgba(52, 52, 52, 0.06);
-      backdrop-filter: blur(10px);
+      grid-template-columns: 1fr;
+      gap: 6px;
+      padding: 2px 0;
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
+      backdrop-filter: none;
       color: #21384f;
     }
 
     .top-info div {
-      min-height: 74px;
-      padding: 8px 10px;
-      border-radius: 12px;
-      border: 1px solid rgba(222, 216, 206, 0.68);
-      background: linear-gradient(180deg, rgba(255, 252, 248, 0.98), rgba(249, 244, 238, 0.96));
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.96);
-      white-space: normal;
+      min-height: 0;
+      padding: 2px 0;
+      border-radius: 0;
+      border: 0;
+      background: transparent;
+      box-shadow: none;
+      white-space: nowrap;
       display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      gap: 4px;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 12px;
       font-size: 0;
     }
 
     .top-info div::before {
-      display: block;
-      color: #978b7d;
-      font-size: 10px;
-      font-weight: 800;
-      letter-spacing: 0.08em;
+      display: inline-block;
+      min-width: 118px;
+      color: #7a8796;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
       text-transform: uppercase;
     }
 
@@ -608,11 +748,54 @@
 
     .top-info div::after {
       content: attr(data-value);
-      color: #22384d;
+      color: #24384d;
       font-size: 15px;
-      font-weight: 800;
+      font-weight: 700;
       line-height: 1.12;
-      word-break: break-word;
+      word-break: keep-all;
+    }
+
+    .port-info-group {
+      display: flex;
+      align-items: flex-start;
+      gap: 28px;
+      min-width: 0;
+    }
+
+    .pol-info,
+    .pod-info {
+      flex: 0 0 auto;
+      display: grid;
+      gap: 7px;
+      padding-top: 2px;
+      min-width: 188px;
+      color: #23394e;
+    }
+
+    .pol-info-line,
+    .pod-info-line {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      white-space: nowrap;
+    }
+
+    .pol-info-label,
+    .pod-info-label {
+      min-width: 38px;
+      color: #778597;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .pol-info-value,
+    .pod-info-value {
+      color: #21384d;
+      font-size: 15px;
+      font-weight: 700;
+      line-height: 1.12;
     }
 
     .top-action-buttons {
@@ -620,16 +803,15 @@
       top: auto;
       right: auto;
       width: 100%;
-      max-width: 352px;
+      max-width: 456px;
+      align-self: center;
       justify-self: end;
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      grid-template-areas:
-        "time threshold"
-        "exception contact";
-      align-items: stretch;
+      grid-template-columns: minmax(128px, 1.28fr) repeat(3, minmax(0, 0.9fr));
+      grid-template-areas: "time threshold exception contact";
+      align-items: center;
       justify-content: stretch;
-      gap: 8px;
+      gap: 6px;
       padding: 0;
       border-radius: 0;
       border: 0;
@@ -643,6 +825,7 @@
     .threshold-tools,
     .exception-tools {
       position: relative;
+      min-width: 0;
     }
 
     .device-time-tools { grid-area: time; }
@@ -650,16 +833,26 @@
     .exception-tools { grid-area: exception; }
     #contact-btn { grid-area: contact; }
 
+    #contact-btn {
+      min-width: 0;
+      align-self: center;
+      height: 38px;
+    }
+
     .device-time-row {
       display: flex;
       align-items: center;
       justify-content: stretch;
       gap: 6px;
-      padding: 6px 7px;
+      height: 38px;
+      min-height: 38px;
+      padding: 3px 3px;
       border-radius: 12px;
       background: linear-gradient(180deg, #ffffff, #f5f9ff);
       box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.96);
       border: 1px solid rgba(210, 223, 236, 0.92);
+      min-width: 0;
+      overflow: hidden;
     }
 
     .device-time-row::before {
@@ -669,22 +862,25 @@
     .time-switch {
       display: inline-flex;
       align-items: center;
-      gap: 4px;
+      gap: 1px;
       width: 100%;
-      padding: 3px;
+      min-width: 0;
+      padding: 2px;
       border-radius: 999px;
       background: #ebf4fc;
       border: 1px solid #cfdeef;
       justify-content: space-between;
+      overflow: hidden;
     }
 
     .time-option {
-      min-height: 30px;
+      min-height: 28px;
       flex: 1 1 0;
-      padding: 0 10px;
+      min-width: 0;
+      padding: 0 5px;
       border-radius: 999px;
       color: #5d7089;
-      font-size: 12px;
+      font-size: 10px;
       font-weight: 700;
       text-align: center;
       white-space: nowrap;
@@ -700,18 +896,18 @@
       display: inline-flex;
       flex: 0 0 auto;
       align-items: center;
-      margin-left: 2px;
-      margin-right: 2px;
+      margin-left: 1px;
+      margin-right: 1px;
     }
 
     .utc-hint-btn {
-      width: 18px;
-      height: 18px;
+      width: 16px;
+      height: 16px;
       border-radius: 50%;
       border: 1px solid #91afd1;
       background: #f8fbff;
       color: #436183;
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 700;
     }
 
@@ -743,15 +939,15 @@
     .threshold-config-btn,
     .extra-action-btn,
     .iot-info-trigger-btn {
-      min-height: 34px;
+      min-height: 38px;
       width: 100%;
-      padding: 0 9px;
+      padding: 0 7px;
       border-radius: 11px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
-      font-size: 11px;
+      gap: 5px;
+      font-size: 10px;
       font-weight: 700;
       white-space: nowrap;
       box-shadow: 0 6px 14px rgba(23, 66, 108, 0.12);
@@ -763,7 +959,8 @@
     }
 
     .top-action-buttons > #contact-btn {
-      align-self: stretch;
+      align-self: center;
+      height: 38px;
     }
 
     .threshold-config-btn,
@@ -1125,9 +1322,14 @@
     .route-strip {
       min-height: var(--route-height);
       padding: 6px 12px;
-      background: linear-gradient(90deg, rgba(244, 250, 255, 0.96), rgba(231, 243, 255, 0.98), rgba(244, 250, 255, 0.96));
-      border-top: 1px solid rgba(202, 224, 243, 0.88);
-      border-bottom: 1px solid rgba(202, 224, 243, 0.88);
+      background:
+        linear-gradient(180deg, #081a2d 0%, #12324f 42%, #275b84 100%) left / 4px 100% no-repeat,
+        linear-gradient(180deg, #081a2d 0%, #12324f 42%, #275b84 100%) right / 4px 100% no-repeat,
+        #ffffff;
+      border-top: 1px solid #e5eaf0;
+      border-bottom: 1px solid #e5eaf0;
+      border-left: 0;
+      border-right: 0;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -2026,6 +2228,15 @@
         right: auto;
         transform: none;
       }
+      .panel-top-center {
+        flex-wrap: wrap;
+        gap: 20px;
+        padding-left: 0;
+      }
+      .port-info-group {
+        flex-wrap: wrap;
+        gap: 20px;
+      }
       .panel-top-center,
       .top-action-buttons { justify-content: stretch; }
       .top-info { grid-template-columns: 1fr; }
@@ -2048,6 +2259,14 @@
       .ai-insight-card {
         position: relative;
       }
+      .panel-top-center {
+        gap: 16px;
+        padding-left: 0;
+      }
+      .port-info-group {
+        flex-direction: column;
+        gap: 16px;
+      }
       .top-info { grid-template-columns: 1fr; }
       .ai-form-grid,
       .contact-form-row { grid-template-columns: 1fr; }
@@ -2058,6 +2277,7 @@
       .workflow-line,
       .workflow-progress { display: none; }
       .panel-bottom { height: 62vh; }
+      .ai-reason-list { grid-template-columns: 1fr; }
       .leaflet-popup.map-status-popup .leaflet-popup-content {
         width: min(86vw, 380px) !important;
       }
@@ -2140,12 +2360,15 @@
             <div>位置信息、里程碑事件、货物状况、箱门动态和新闻影响。</div>
           </div>
           <div class="ai-suggestion-box" id="ai-suggestion-box">
-            <div class="ai-suggestion-title">提交改进建议</div>
-            <div class="ai-form-grid">
-              <div class="ai-form-item"><label for="suggestType">问题类型</label><select id="suggestType"><option>内容不准确</option><option>信息不完整</option><option>时效性不足</option><option>其他问题</option></select></div>
-              <div class="ai-form-item"><label for="suggestScene">发生场景</label><input id="suggestScene" type="text" value="智能洞察卡片" /></div>
-              <div class="ai-form-item full"><label for="suggestDetail">问题描述</label><textarea id="suggestDetail"></textarea></div>
-              <div class="ai-form-item full"><label for="suggestExpect">期望改进</label><textarea id="suggestExpect"></textarea></div>
+            <div class="ai-suggestion-title">请选择反馈原因</div>
+            <div class="ai-reason-list" id="ai-reason-list">
+              <button class="ai-reason-option" data-reason="信息不准确" type="button">1. 信息不准确</button>
+              <button class="ai-reason-option" data-reason="信息不完整" type="button">2. 信息不完整</button>
+              <button class="ai-reason-option" data-reason="排版不舒适" type="button">3. 排版不舒适</button>
+              <button class="ai-reason-option" data-reason="其他" type="button">4. 其他</button>
+            </div>
+            <div class="ai-other-reason-box" id="ai-other-reason-box">
+              <div class="ai-form-item full"><label for="suggestOtherReason">请简单填写原因</label><textarea id="suggestOtherReason" placeholder="请输入补充原因..."></textarea></div>
             </div>
             <div class="ai-form-actions">
               <button class="ai-form-btn" id="suggestCancel" type="button">取消</button>
@@ -2161,6 +2384,18 @@
           <div data-value="CCLU0027940"></div>
           <div data-value="Q091789430"></div>
           <div data-value="COSCO FORTUNE 083W"></div>
+        </div>
+        <div class="port-info-group">
+          <div class="pol-info" aria-label="pol information">
+            <div class="pol-info-line"><span class="pol-info-label">POL</span><span class="pol-info-value">Ningbo</span></div>
+            <div class="pol-info-line"><span class="pol-info-label">ETD</span><span class="pol-info-value">10 Jul, 22:07 (CST)</span></div>
+            <div class="pol-info-line"><span class="pol-info-label">ATD</span><span class="pol-info-value">Pending</span></div>
+          </div>
+          <div class="pod-info" aria-label="pod information">
+            <div class="pod-info-line"><span class="pod-info-label">POD</span><span class="pod-info-value">New York</span></div>
+            <div class="pod-info-line"><span class="pod-info-label">ETA</span><span class="pod-info-value">06 Aug, 20:08 (CST)</span></div>
+            <div class="pod-info-line"><span class="pod-info-label">ATA</span><span class="pod-info-value">Pending</span></div>
+          </div>
         </div>
       </div>
 
@@ -2358,6 +2593,7 @@
     const state = {
       activeFeedback: null,
       showSuggestion: false,
+      selectedReason: null,
       showIotPanel: false,
       magnifierActive: false,
     };
@@ -2370,6 +2606,9 @@
     const aiPanels = Array.from(document.querySelectorAll(".ai-panel"));
     const feedbackButtons = Array.from(document.querySelectorAll(".ai-feedback-btn"));
     const suggestionBox = document.getElementById("ai-suggestion-box");
+    const reasonButtons = Array.from(document.querySelectorAll(".ai-reason-option"));
+    const otherReasonBox = document.getElementById("ai-other-reason-box");
+    const suggestOtherReason = document.getElementById("suggestOtherReason");
     const suggestCancel = document.getElementById("suggestCancel");
     const suggestSubmit = document.getElementById("suggestSubmit");
     const timeOptionButtons = Array.from(document.querySelectorAll(".time-option"));
@@ -2556,6 +2795,13 @@
     const renderFeedbackState = () => {
       feedbackButtons.forEach((button) => button.classList.toggle("is-active", button.dataset.feedback === state.activeFeedback));
       suggestionBox.classList.toggle("show", state.showSuggestion);
+      reasonButtons.forEach((button) => button.classList.toggle("is-selected", button.dataset.reason === state.selectedReason));
+      otherReasonBox.classList.toggle("show", state.selectedReason === "其他");
+    };
+
+    const resetSuggestionState = () => {
+      state.selectedReason = null;
+      if (suggestOtherReason) suggestOtherReason.value = "";
     };
 
     const closeThresholdPanel = () => {
@@ -2621,19 +2867,36 @@
       const nextValue = state.activeFeedback === type ? null : type;
       state.activeFeedback = nextValue;
       state.showSuggestion = Boolean(nextValue && nextValue !== "good");
+      resetSuggestionState();
+      renderFeedbackState();
+    }));
+
+    reasonButtons.forEach((button) => button.addEventListener("click", () => {
+      state.selectedReason = button.dataset.reason || null;
+      if (state.selectedReason !== "其他" && suggestOtherReason) suggestOtherReason.value = "";
       renderFeedbackState();
     }));
 
     suggestCancel.addEventListener("click", () => {
       state.activeFeedback = null;
       state.showSuggestion = false;
+      resetSuggestionState();
       renderFeedbackState();
     });
 
     suggestSubmit.addEventListener("click", () => {
+      if (!state.selectedReason) {
+        alert("请选择一个反馈原因。");
+        return;
+      }
+      if (state.selectedReason === "其他" && suggestOtherReason && !suggestOtherReason.value.trim()) {
+        alert("请简单填写原因。");
+        return;
+      }
       alert("感谢你的建议,我们已收到并会尽快优化。");
       state.activeFeedback = null;
       state.showSuggestion = false;
+      resetSuggestionState();
       renderFeedbackState();
     });
 
